@@ -76,6 +76,18 @@ final class UserFacade implements Nette\Security\Authenticator
 			throw new DuplicateNameException;
 		}
 	}
+
+	public function getAll(int $id = null)
+	{
+		// Use $id to fetch a specific user if provided, otherwise fetch all users
+		if ($id !== null) {
+			return $this->database->table('users')->where('id', $id)->fetch();
+		} else {
+			return $this->database->table('users')->fetchAll();
+		}
+	}
+	
+
 }
 
 

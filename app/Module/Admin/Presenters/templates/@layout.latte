@@ -14,6 +14,7 @@
 		<div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
 
 		{include content}
+		<p>(<a n:href="User:default">User Default</a>)</p>
 	</div>
 
 	{block scripts}
