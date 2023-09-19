@@ -12,9 +12,16 @@
 <body>
 	<div class=container>
 		<div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
-
+{if $user->isLoggedIn()}
+    <p>({$user->getIdentity()->username}) | (<a n:href="Sign:out">Sign Out</a>)</p>
+{else}
+    <p>(<a n:href="Sign:in">Sign In</a>)</p>
+{/if}
 		{include content}
 		<p>(<a n:href="User:default">User Default</a>)</p>
+
+
+
 	</div>
 
 	{block scripts}
