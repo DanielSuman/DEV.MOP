@@ -34,4 +34,8 @@ class UserPresenter extends Presenter
         // Pass the $user variable to the template
         $this->template->user = $user;
     }
+    public function handleDelete(int $userId) {
+        $this->userFacade->delete($userId);
+        $this->redirect('User:default');
+    }
 }

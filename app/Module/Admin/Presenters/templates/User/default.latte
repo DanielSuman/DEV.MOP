@@ -7,12 +7,16 @@
             <th>Email</th>
             <th>Role</th>
         </tr>
-        {foreach $user as $userItem}
+        {foreach $users as $userItem}
             <tr>
-                <td>{$user->id}</td>
-                <td>{$user->username}</td>
-                <td>{$user->email}</td>
-                <td>{$user->role}</td>
+                <td>{$userItem->id}</td>
+                <td>{$userItem->username}</td>
+                <td>{$userItem->email}</td>
+                <td>{$userItem->role}</td>
+                {dump $user->getIdentity()->id}
+                {if $userItem->id != $user->getIdentity()->id}                
+                <td><a n:href="delete! $userItem->id">Smazat</a></td>{/if}
+
             </tr>
         {/foreach}
     </table>

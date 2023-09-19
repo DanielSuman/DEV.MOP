@@ -86,7 +86,12 @@ final class UserFacade implements Nette\Security\Authenticator
 			return $this->database->table('users')->fetchAll();
 		}
 	}
-	
+	public function getById(int $userId) {
+		return $this->database->table(self::TableName)->get($userId);
+	}
+	public function delete(int $userId) {
+		$this->getById($userId)->delete();
+	}
 
 }
 
