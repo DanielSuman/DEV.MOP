@@ -5,6 +5,7 @@ namespace App\Module\Admin\Presenters;
 
 use App\Model\UserFacade; // Import the UserFacade class
 use Nette\Application\UI\Presenter;
+use Nette\Application\UI\Form;
 
 class UserPresenter extends Presenter
 {
@@ -34,6 +35,30 @@ class UserPresenter extends Presenter
         // Pass the $user variable to the template
         $this->template->user = $user;
     }
+
+    public function createComponentEditForm(): Form {
+        $form = new Form;
+        $form->addText('username', 'Uživ. Jméno:')
+		->setRequired();
+	    $form->addTextArea('password', 'Heslo:')
+		->setRequired();
+
+    	$form->addSubmit('send', 'Uložit změny');
+    	$form->onSuccess[] = $this->editFormSucceeded(...);
+
+	    return $form;
+    }
+    public function editFormSucceeded(array $data): void 
+    {
+        $userItem = $this->userFacade->editUser($this->userItem->id, $data);
+        
+        $this->flashMessage("Změny byly uloženy", 'success');
+	    $this->redirect('User:default');
+    }
+    public function renderEdit(): void {
+        
+    }
+    
     public function handleDelete(int $userId) {
         $this->userFacade->delete($userId);
         $this->redirect('User:default');
