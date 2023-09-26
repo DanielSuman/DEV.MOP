@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Module\Admin\Presenters;
 
-use App\Model\UserFacade; // Import the UserFacade class
+use Nette;
+use App\Model\UserFacade;
 use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Form;
 
@@ -36,24 +37,36 @@ class UserPresenter extends Presenter
         $this->template->user = $user;
     }
 
-    public function createComponentEditForm(): Form {
-        $form = new Form;
-        $form->addText('username', 'Uživ. Jméno:')
-		->setRequired();
-	    $form->addTextArea('password', 'Heslo:')
-		->setRequired();
+    public function createComponentEditForm() {
 
-    	$form->addSubmit('send', 'Uložit změny');
-    	$form->onSuccess[] = $this->editFormSucceeded(...);
+        $form = new Nette\Application\UI\Form;
+        $form->addText('username', 'Uživatelské Jméno')
+            ->setRequired('Zadejte uživatelské jméno.');
+        $form->addTExt('email', 'Email')
+            ->setRequired('Zadejte email.');
+        $form->addText('password', 'Heslo');
+        $form->addSubmit('send', 'Uložit');
 
-	    return $form;
+        $form->onSuccess[] = [$this, 'editFormSucceeded'];
+
+        $existingUser = $this->userFacade->getById($this->user->id);
+
+        bdump($existingUser);
+
+        if($existingUser !== null) {
+            $formData = $existingUser->toArray();
+
+            // Don't wish to fill the password in automatically
+            unset($formData['password']);
+            $form->setDefaults($formData);
+        }
+        bdump($existingUser);
+
+        return $form;
     }
-    public function editFormSucceeded(array $data): void 
-    {
-        $userItem = $this->userFacade->editUser($this->userItem->id, $data);
-        
-        $this->flashMessage("Změny byly uloženy", 'success');
-	    $this->redirect('User:default');
+    public function editFormSucceeded($form, $values) {
+        // aktuálně přihlášený uživatel
+        $this->userFacade->edit($this->user->id, $values);
     }
     public function renderEdit(): void {
         
