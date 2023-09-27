@@ -17,8 +17,8 @@ final class RouterFactory
         $router = new RouteList;
         $router->addRoute('<module>/<presenter>/<action>[/<id \d+>]', [
             'module' => 'Admin',
-            'presenter' => 'Dashboard',
-            'action' => 'default',
+            'presenter' => 'Sign',
+            'action' => 'in',
         ]);
         return $router;
     }

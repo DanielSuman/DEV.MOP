@@ -65,6 +65,14 @@ class UserPresenter extends Presenter
         return $form;
     }
     public function editFormSucceeded($form, $values) {
+
+        // Změna hesla, pokud není řádek prázdný (Neměnit, pokud je vstupní okénko prázdné)
+        if($values->password !== '') {
+            $this->userFacade->changePassword($this->user->id, $values->password);
+        }
+
+        unset($values->password);
+
         // aktuálně přihlášený uživatel
         $this->userFacade->edit($this->user->id, $values);
     }
