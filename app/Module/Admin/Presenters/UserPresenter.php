@@ -44,7 +44,7 @@ class UserPresenter extends Presenter
             ->setRequired('Zadejte uživatelské jméno.');
         $form->addTExt('email', 'Email')
             ->setRequired('Zadejte email.');
-        $form->addText('password', 'Heslo');
+        $form->addPassword('password', 'Heslo');
         $form->addSubmit('send', 'Uložit');
 
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
@@ -73,13 +73,21 @@ class UserPresenter extends Presenter
 
         unset($values->password);
 
+
+        // Informuje, že uživ. jméno je obsazeno.
+        if($this->userFacade->getByUserName($values->username) !== null) {
+            $this->flashMessage('Uživatelské jméno je již zabrané.', 'danger');
+            $this->redirect('this');
+        }
+
         // aktuálně přihlášený uživatel
         $this->userFacade->edit($this->user->id, $values);
     }
     public function renderEdit(): void {
         
     }
-    
+
+    // Odstranění uživatele
     public function handleDelete(int $userId) {
         $this->userFacade->delete($userId);
         $this->redirect('User:default');
