@@ -88,7 +88,8 @@ class UserPresenter extends Presenter
             if ($values->image->isOk()) {
                 $values->image->move('upload/' . $this->user->getIdentity()->getId() . '/' . $values->image->getSanitizedName());
                 $values['image'] = ('upload/' . $this->user->getIdentity()->getId() . '/' . $values->image->getSanitizedName());
-            
+                echo '<img src="' . $values['image'] . '" alt="Uploaded Image">';
+
         } else {
             $this->flashMessage('Soubor nebyl přidán', 'failed');
             // $this->redirect('this');
