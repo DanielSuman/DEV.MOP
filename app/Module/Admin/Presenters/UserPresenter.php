@@ -40,9 +40,11 @@ class UserPresenter extends Presenter
     public function createComponentEditForm() {
 
         $form = new Nette\Application\UI\Form;
+        $form->addUpload('image', 'Upload a Profile Image')
+            ->addRule(Form::IMAGE, 'Thumbnail must be JPEG, PNG or GIF');
         $form->addText('username', 'Uživatelské Jméno')
             ->setRequired('Zadejte uživatelské jméno.');
-        $form->addTExt('email', 'Email')
+        $form->addText('email', 'Email')
             ->setRequired('Zadejte email.');
         $form->addPassword('password', 'Heslo');
         $form->addSubmit('send', 'Uložit');
@@ -80,8 +82,21 @@ class UserPresenter extends Presenter
             $this->redirect('this');
         }
 
+        bdump($values->image);
+        // Profil
+    
+            if ($values->image->isOk()) {
+                $values->image->move('upload/' . $this->user->getIdentity()->getId() . '/' . $values->image->getSanitizedName());
+                $values['image'] = ('upload/' . $this->user->getIdentity()->getId() . '/' . $values->image->getSanitizedName());
+            
+        } else {
+            $this->flashMessage('Soubor nebyl přidán', 'failed');
+            // $this->redirect('this');
+        }
+
         // aktuálně přihlášený uživatel
-        $this->userFacade->edit($this->user->id, $values);
+        bdump($this->user);
+        $this->userFacade->edit($this->user->getIdentity()->getId(), $values);
     }
     public function renderEdit(): void {
         

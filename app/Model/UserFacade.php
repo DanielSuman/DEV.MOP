@@ -21,7 +21,8 @@ final class UserFacade implements Nette\Security\Authenticator
 		ColumnName = 'username',
 		ColumnPasswordHash = 'password',
 		ColumnEmail = 'email',
-		ColumnRole = 'role';
+		ColumnRole = 'role',
+		ColumnImage = 'image';
 
 
 	public function __construct(

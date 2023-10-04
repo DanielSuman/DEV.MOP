@@ -20,6 +20,11 @@ final class SignUpFormFactory
 	public function create(callable $onSuccess): Form
 	{
 		$form = $this->factory->create();
+
+	/*	$form->addUpload('image', 'Upload a Profile Image')
+            ->setRequired()
+            ->addRule(Form::IMAGE, 'Thumbnail must be JPEG, PNG or GIF'); */
+		
 		$form->addText('username', 'Pick a username:')
 			->setRequired('Please pick a username.');
 
