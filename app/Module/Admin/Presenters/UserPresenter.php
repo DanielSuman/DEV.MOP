@@ -75,9 +75,10 @@ class UserPresenter extends Presenter
 
         unset($values->password);
 
-
-        // Informuje, že uživ. jméno je obsazeno.
-        if($this->userFacade->getByUserName($values->username) !== null) {
+         // Informuje, že uživ. jméno je obsazeno, unless it's the current user's username.
+        if ($values->username == $this->user->getIdentity()->username) {
+            unset($values->username);
+        } elseif ($this->userFacade->getByUserName($values->username) !== null) {
             $this->flashMessage('Uživatelské jméno je již zabrané.', 'danger');
             $this->redirect('this');
         }
