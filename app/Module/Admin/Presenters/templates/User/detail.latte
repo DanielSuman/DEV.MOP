@@ -1,19 +1,7 @@
-{extends 'layout.latte'}
-
 {block content}
-    <h1>User Detail</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-        <tr>
-            <td>{$user->id}</td>
-            <td>{$user->username}</td>
-            <td>{$user->email}</td>
-            <td>{$user->role}</td>
-        </tr>
-    </table>
+
+    <h1>Detail Uživatele {$person->username}</h1>
+
+    {control editForm}
+
 {/block}

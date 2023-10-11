@@ -101,12 +101,19 @@ final class UserFacade implements Nette\Security\Authenticator
 	{	
 		$this->getById($userId)->update($data);
 	}
-	
 	public function changePassword(int $userId, string $newPassword) {
 		$user = $this->getById($userId);
 		$user->update([
 			self::ColumnPasswordHash => $this->passwords->hash($newPassword),
 			// self:ColumnPasswordHash
+		]);
+	}
+	public function changeRole(int $userId, string $role) {
+		$user = $this->getById($userId);
+
+		$user->update([
+			self::ColumnRole => $role,
+			# Někdo má Column Role
 		]);
 	}
 

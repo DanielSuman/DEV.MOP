@@ -27,16 +27,20 @@ class UserPresenter extends Presenter
         // Pass the $users variable to the template
         $this->template->users = $users;
     }
-
+    public function actionDetail(int $id) {
+        if(!$this->user->isInRole('admin')) {
+            $this->flashMessage('Nemáte právo editovat uživatele!', 'danger');
+            $this->redirect('User:default');
+        }
+    }
     public function renderDetail(int $id)
     {
         // Fetch a specific user by ID using your UserFacade's getAll() method
-        $user = $this->userFacade->get($id); // Assuming you have a get() method for specific user retrieval
+        $person = $this->userFacade->getById($id); // Assuming you have a get() method for specific user retrieval
 
         // Pass the $user variable to the template
-        $this->template->user = $user;
+        $this->template->person = $person;
     }
-
     public function createComponentEditForm() {
 
         $form = new Nette\Application\UI\Form;
@@ -47,9 +51,19 @@ class UserPresenter extends Presenter
         $form->addText('email', 'Email')
             ->setRequired('Zadejte email.');
         $form->addPassword('password', 'Heslo');
+        $select = $form->addSelect(
+            'role',
+            'Role',
+            [
+                'admin' => 'Admin',
+                'user' => 'User',
+            ]
+            );
         $form->addSubmit('send', 'Uložit');
 
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
+
+        $id = $this->getParameter('id');
 
         $existingUser = $this->userFacade->getById($this->user->id);
 
@@ -60,7 +74,9 @@ class UserPresenter extends Presenter
 
             // Don't wish to fill the password in automatically
             unset($formData['password']);
+
             $form->setDefaults($formData);
+            $select->setDefaultValue($formData['role']);
         }
         bdump($existingUser);
 
@@ -75,7 +91,7 @@ class UserPresenter extends Presenter
 
         unset($values->password);
 
-         // Informuje, že uživ. jméno je obsazeno, unless it's the current user's username.
+         // Informuje, že uživ. jméno je obsazeno, pokud to není jméno aktuálně přihlášeného uživatele.
         if ($values->username == $this->user->getIdentity()->username) {
             unset($values->username);
         } elseif ($this->userFacade->getByUserName($values->username) !== null) {
