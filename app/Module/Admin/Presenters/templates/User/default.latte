@@ -9,11 +9,12 @@
         </tr>
         {foreach $users as $userItem}
             <tr>
-                <td><a n:href="User:detail, $userItem->id">{$userItem->username}</td>
-                <td><a href="{link User:detail $userItem->id}">{$userItem->username}</td>
+                <td>{$userItem->id}</td>
+                <td>{$userItem->username}</td>
                 <td>{$userItem->email}</td>
                 <td>{$userItem->role}</td>
                 {dump $user->getIdentity()->id}
+                <td><a n:href="User:detail, $userItem->id">Upravit</a></td>
                 {if $userItem->id != $user->getIdentity()->id}                
                 <td><a n:href="delete! $userItem->id">Smazat</a></td>{/if}
             </tr>
