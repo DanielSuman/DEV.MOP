@@ -51,21 +51,25 @@ class UserPresenter extends Presenter
         $form->addText('email', 'Email')
             ->setRequired('Zadejte email.');
         $form->addPassword('password', 'Heslo');
-        $select = $form->addSelect(
-            'role',
-            'Role',
-            [
-                'admin' => 'Admin',
-                'user' => 'User',
-            ]
+
+        if($this->user->isInRole('admin')) {
+            $select = $form->addSelect(
+                'role',
+                'Role',
+                [
+                    'admin' => 'Admin',
+                    'user' => 'User',
+                ]
             );
+        }
+
         $form->addSubmit('send', 'Uložit');
 
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
 
         $id = $this->getParameter('id');
 
-        $existingUser = $this->userFacade->getById($this->user->id);
+        $existingUser = $this->userFacade->getById((int) $id);
 
         bdump($existingUser);
 
@@ -84,17 +88,23 @@ class UserPresenter extends Presenter
     }
     public function editFormSucceeded($form, $values) {
 
+        $id = $this->getParameter('id');
         // Změna hesla, pokud není řádek prázdný (Neměnit, pokud je vstupní okénko prázdné)
         if($values->password !== '') {
-            $this->userFacade->changePassword($this->user->id, $values->password);
+            $this->userFacade->changePassword((int) $id, $values->password);
         }
 
         unset($values->password);
 
          // Informuje, že uživ. jméno je obsazeno, pokud to není jméno aktuálně přihlášeného uživatele.
         if ($values->username == $this->user->getIdentity()->username) {
+
+
             unset($values->username);
-        } elseif ($this->userFacade->getByUserName($values->username) !== null) {
+        } elseif (
+            ($this->userFacade->getByUserName($values->username) !== null)
+            && ($this->userFacade->getById((int) $id)->username != $values->username)
+        ) {
             $this->flashMessage('Uživatelské jméno je již zabrané.', 'danger');
             $this->redirect('this');
         }
@@ -103,8 +113,8 @@ class UserPresenter extends Presenter
         // Profil
     
             if ($values->image->isOk()) {
-                $values->image->move('upload/' . $this->user->getIdentity()->getId() . '/' . $values->image->getSanitizedName());
-                $values['image'] = ('upload/' . $this->user->getIdentity()->getId() . '/' . $values->image->getSanitizedName());
+                $values->image->move('upload/' . $this->userFacade->getById((int) $id) . '/' . $values->image->getSanitizedName());
+                $values['image'] = ('upload/' . $this->userFacade->getById((int) $id) . '/' . $values->image->getSanitizedName());
                 echo '<img src="' . $values['image'] . '" alt="Uploaded Image">';
 
         } else {
@@ -114,7 +124,7 @@ class UserPresenter extends Presenter
 
         // aktuálně přihlášený uživatel
         bdump($this->user);
-        $this->userFacade->edit($this->user->getIdentity()->getId(), $values);
+        $this->userFacade->edit((int) $id, $values);
     }
     public function renderEdit(): void {
         
