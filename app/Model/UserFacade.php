@@ -117,6 +117,11 @@ final class UserFacade implements Nette\Security\Authenticator
 		]);
 	}
 
+	public function deleteImage(int $userId) {
+		$this->database->table(self::TableName)->get($userId)->update([
+			'image' => null
+		]);
+	}
 	public function delete(int $userId) {
 		$this->getById($userId)->delete();
 	}

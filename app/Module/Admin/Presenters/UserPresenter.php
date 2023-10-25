@@ -111,13 +111,13 @@ class UserPresenter extends Presenter
 
         bdump($values->image);
         // Profil
-    
             if ($values->image->isOk()) {
                 $values->image->move('upload/' . $this->userFacade->getById((int) $id) . '/' . $values->image->getSanitizedName());
                 $values['image'] = ('upload/' . $this->userFacade->getById((int) $id) . '/' . $values->image->getSanitizedName());
                 echo '<img src="' . $values['image'] . '" alt="Uploaded Image">';
 
         } else {
+            unset($values->image);
             $this->flashMessage('Soubor nebyl přidán', 'failed');
             // $this->redirect('this');
         }
@@ -130,6 +130,11 @@ class UserPresenter extends Presenter
         
     }
 
+
+    // Odstranění uživ. profilové fotky
+    public function handleDeleteImage(int $userId) {
+        $uawe = $this->userFacade->getById($userId);
+    }
     // Odstranění uživatele
     public function handleDelete(int $userId) {
         $this->userFacade->delete($userId);
