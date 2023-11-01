@@ -133,7 +133,21 @@ class UserPresenter extends Presenter
 
     // Odstranění uživ. profilové fotky
     public function handleDeleteImage(int $userId) {
-        $uawe = $this->userFacade->getById($userId);
+        $user = $this->userFacade->getById($userId);
+
+        if($user === null) {
+            $this->flashMessage('Uživatelská fotka neexistuje', 'error');
+            $this->redirect('this');
+        }
+        if($user->image !== null) {
+            $this->userFacade->deleteImage($userId);
+            bdump($user->image);
+
+            unlink(__DIR__ . '/../../../../www/' . $user->image);
+        }
+
+        $this->flashMessage("Obrtázek byl smazán", "success");
+        $this->redirect("this");
     }
     // Odstranění uživatele
     public function handleDelete(int $userId) {

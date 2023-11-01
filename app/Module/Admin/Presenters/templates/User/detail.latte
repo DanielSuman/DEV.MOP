@@ -1,10 +1,10 @@
 {block content}
 
     <h1>Detail Uživatele {$person->username}</h1>
-    <img src="/{$user->getIdentity()->image}" alt="Girl in a jacket" width="250" height="250">
-    {ifset $user->image} 
-        <img src="{$basePath}/uploads/{$user->id}/{$user->image}">
-        <a n:href="deleteImage! $user->id">Smazat profilovku</a>
+    <img src="/{$person->image}" alt="Girl in a jacket" width="250" height="250">
+    {ifset $person->image} 
+        <img src="{$basePath}/uploads/{$person->id}/{$person->image}">
+        <a n:href="deleteImage! $person->id">Smazat profilovku</a>
     {/ifset}
     {control editForm}
 
