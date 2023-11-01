@@ -14,7 +14,7 @@
 		<div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
 
 	{if $user->isLoggedIn()} 
-		<img src="/{$user->getIdentity()->image}" alt="Girl in a jacket" width="250" height="250">  
+
 		<p> ({$user->getIdentity()->username}) | (<a n:href="User:detail, $user->id">Edit User</a>) | (<a n:href="Sign:out">Sign Out</a>)</p>
 	{else}
 		<p>(<a n:href="Sign:in">Sign In</a>)</p>
