@@ -4,7 +4,7 @@
     <img src="/{$person->image}" alt="Girl in a jacket" width="250" height="250">
     {ifset $person->image} 
         <img src="{$basePath}/uploads/{$person->id}/{$person->image}">
-        <a n:href="handleDeleteImage! $person->id">Smazat profilovku</a>
+        <a n:href="deleteImage! $person->id">Smazat profilovku</a>
     {/ifset}
     {control editForm}
 
