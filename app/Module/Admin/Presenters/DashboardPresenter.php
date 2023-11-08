@@ -10,4 +10,9 @@ use Nette;
 final class DashboardPresenter extends Nette\Application\UI\Presenter
 {
 	use RequireLoggedUser;
+
+	public function actionWelcome()
+	{
+
+	}
 }
