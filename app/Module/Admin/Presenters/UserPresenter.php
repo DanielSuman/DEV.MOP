@@ -27,6 +27,7 @@ class UserPresenter extends Presenter
         // Pass the $users variable to the template
         $this->template->users = $users;
     }
+    
     public function actionDetail(int $id) {
         if(!$this->user->isInRole('admin')) {
             $this->flashMessage('Nemáte právo editovat uživatele!', 'danger');
@@ -151,7 +152,11 @@ class UserPresenter extends Presenter
     }
     // Odstranění uživatele
     public function handleDelete(int $userId) {
-        $this->userFacade->delete($userId);
-        $this->redirect('User:default');
+        if(!$this->user->isInRole('admin')) {
+            $this->flashMessage('Nemáte právo odstraňovat uživatele!', 'danger');
+        } else {
+            $this->userFacade->delete($userId);
+            $this->redirect('User:default');
+        }
     }
 }

@@ -19,8 +19,7 @@
 		(<a n:href="Homepage:default">Modpage</a>)
 		({$user->getIdentity()->username}) | (<a n:href="User:detail, $user->id">Edit User</a>) | (<a n:href="Sign:out">Sign Out</a>)</p>
 	{else}
-		<p>(<a n:href="User:default">User Default</a>)
-		(<a n:href="Homepage:default">Modpage</a>)
+		<p>(<a n:href="Sign:up">Sign Up</a>)
 		(<a n:href="Sign:in">Sign In</a>)</p>
 	{/if}
 
