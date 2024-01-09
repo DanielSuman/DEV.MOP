@@ -7,7 +7,7 @@ namespace App\Module\Admin\Presenters;
 use Nette;
 use Nette\Application\UI\Form;
 
-final class SearchPresenter extends Nette\Application\UI\Presenter {
+final class SearchPresenter extends BasePresenter {
     private Nette\Database\Explorer $database;
 
 

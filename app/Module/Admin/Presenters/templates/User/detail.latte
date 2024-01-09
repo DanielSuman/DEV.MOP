@@ -1,7 +1,7 @@
 {block content}
 
     <h1>Detail Uživatele {$person->username}</h1>
-    <img src="/{$person->image}" alt="Girl in a jacket" width="250" height="250">
+    <img src="/{$person->image}" alt="Profile" width="250" height="250">
     {ifset $person->image} 
         <img src="{$basePath}/uploads/{$person->id}/{$person->image}">
         <a n:href="deleteImage! $person->id">Smazat profilovku</a>

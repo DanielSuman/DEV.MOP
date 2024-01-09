@@ -8,7 +8,7 @@ use App\Model\ModFacade;
 use Nette;
 
 
-final class HomepagePresenter extends Nette\Application\UI\Presenter
+final class HomepagePresenter extends BasePresenter
 {
 	private ModFacade $facade;
 

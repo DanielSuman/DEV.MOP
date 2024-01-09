@@ -9,7 +9,7 @@ use Nette;
 use Nette\Application\UI\Form;
 
 
-final class SignPresenter extends Nette\Application\UI\Presenter
+final class SignPresenter extends BasePresenter
 {
 	/** @persistent */
 	public string $backlink = '';

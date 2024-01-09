@@ -21,4 +21,9 @@ final class ModFacade
         ->where("created_at < ", new \DateTime)
         ->order("created_at DESC");
     }
+    public function getModsBySearchWord($searchWord)
+    {
+        return $this->database->table('posts')->where('text LIKE ?', "%$searchWord%")->fetchAll();
+    }
+
 }

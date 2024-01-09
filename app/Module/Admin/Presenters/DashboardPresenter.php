@@ -7,7 +7,7 @@ namespace App\Module\Admin\Presenters;
 use Nette;
 
 
-final class DashboardPresenter extends Nette\Application\UI\Presenter
+final class DashboardPresenter extends BasePresenter
 {
 	use RequireLoggedUser;
 

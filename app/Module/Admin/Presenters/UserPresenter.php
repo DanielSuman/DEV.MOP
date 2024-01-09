@@ -5,10 +5,9 @@ namespace App\Module\Admin\Presenters;
 
 use Nette;
 use App\Model\UserFacade;
-use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Form;
 
-class UserPresenter extends Presenter
+class UserPresenter extends BasePresenter
 {
     private UserFacade $userFacade; // Declare a private property for UserFacade
 

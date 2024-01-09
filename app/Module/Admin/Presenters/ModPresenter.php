@@ -8,7 +8,7 @@ use Nette;
 use Nette\Application\UI\Form;
 
 
-final class ModPresenter extends Nette\Application\UI\Presenter
+final class ModPresenter extends BasePresenter
 {
 	private Nette\Database\Explorer $database;
 
@@ -28,6 +28,10 @@ final class ModPresenter extends Nette\Application\UI\Presenter
 
 		$this->template->mod = $mod;
 	#	$this->template->comments = $mod->related('comment')->order('created_at');
+	}
+	public function renderResults(string $searchWord)
+	{
+		$this->template->results = "blabla";
 	}
 
 /*
