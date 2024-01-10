@@ -22,7 +22,8 @@ final class ModFacade
         ->order("created_at DESC");
     }
     public function getModById($modId) {
-        
+        return $this->database
+        ->table('mods')->get($modId);
     }
     public function getModsBySearchWord($searchWord)
     {

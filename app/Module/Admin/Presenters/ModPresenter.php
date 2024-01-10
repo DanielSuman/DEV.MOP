@@ -12,15 +12,11 @@ use App\Model\ModFacade;
 
 final class ModPresenter extends BasePresenter
 {
-	
-
-
 	public function __construct(private ModFacade $modFacade){}
-
-
-	public function renderShow(int $modId): void
+	
+	public function renderShow(int $modId) 
 	{
-		$mod = $this->modFacade->table('mods')->get($modId);
+		$mod = $this->modFacade->getModById($modId);
 		if (!$mod) {
 			$this->error('Mod not found');
 		}
@@ -30,7 +26,6 @@ final class ModPresenter extends BasePresenter
 	}
 	public function renderResults(string $searchWord)
 	{
-		$this->template->results = "blabla";
 		$this->template->results = $this->modFacade->getModsBySearchWord($searchWord);
 	}
 
