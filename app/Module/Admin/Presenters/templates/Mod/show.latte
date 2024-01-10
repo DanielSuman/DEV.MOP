@@ -1,6 +1,6 @@
 {block content}
-<div>
-<h1 n:block=title>{$mod->title}</h1>
-<div class="mod">{$mod->description}</div>
-<div class="date">{$mod->created_at|date:'F j, Y'}</div>
+<div class="mod">
+    <h1 n:block=title>{$mod->title}</h1>
+    <br />{$mod->description}
+    <br />{$mod->created_at|date:'F j, Y'}
 </div>

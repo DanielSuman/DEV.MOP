@@ -21,6 +21,6 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     {
         bdump($data);
         $this->flashMessage('Showing results...', 'success');
-		$this->redirect('Mod:results');
+		$this->redirect('Mod:results', $data->searchWord);
     }
 }

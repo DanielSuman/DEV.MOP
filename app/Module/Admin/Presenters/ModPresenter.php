@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace App\Module\Admin\Presenters;
 
+
 use Nette;
 use Nette\Application\UI\Form;
+use App\Model\ModFacade;
 
 
 final class ModPresenter extends BasePresenter
 {
-	private Nette\Database\Explorer $database;
+	
 
 
-	public function __construct(Nette\Database\Explorer $database)
-	{
-		$this->database = $database;
-	}
+	public function __construct(private ModFacade $modFacade){}
 
 
 	public function renderShow(int $modId): void
 	{
-		$mod = $this->database->table('mods')->get($modId);
+		$mod = $this->modFacade->table('mods')->get($modId);
 		if (!$mod) {
 			$this->error('Mod not found');
 		}
@@ -32,6 +31,7 @@ final class ModPresenter extends BasePresenter
 	public function renderResults(string $searchWord)
 	{
 		$this->template->results = "blabla";
+		$this->template->results = $this->modFacade->getModsBySearchWord($searchWord);
 	}
 
 /*

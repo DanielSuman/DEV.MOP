@@ -21,9 +21,14 @@ final class ModFacade
         ->where("created_at < ", new \DateTime)
         ->order("created_at DESC");
     }
+    public function getModById($modId) {
+        
+    }
     public function getModsBySearchWord($searchWord)
     {
-        return $this->database->table('posts')->where('text LIKE ?', "%$searchWord%")->fetchAll();
+        return $this->database
+            ->table('mods')
+            ->where('title LIKE ?', "%$searchWord%")
+            ->fetchAll();
     }
-
 }
