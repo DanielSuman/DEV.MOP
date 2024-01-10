@@ -2,10 +2,10 @@
 	<h1 n:block="title">My Modpage</h1>
 
 	<div n:foreach="$mods as $mod" class="mod">
-		<div class="date">{$mod->created_at|date:'F j, Y'}</div>
+		
 
 		<h2><a n:href="Mod:show $mod->id">{$mod->title}</a></h2>
-
 		<div>{$mod->description}</div>
+		<div class="date">{$mod->created_at|date:'F j, Y'}</div>
 	</div>
 {/block}
